@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cyan.intellicyan.activities.TodoListActivity">
+    <include layout="@layout/base_toolbar"></include>
+
+    <ImageButton
+        android:id="@+id/todo_add_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="0dp"
+        android:src="@android:drawable/ic_input_add"
+        android:background="#00ffffff"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/todo_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/todo_add_button" />
+</RelativeLayout>
