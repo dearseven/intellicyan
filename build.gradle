@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "cyan.intellicyan"
-        minSdkVersion 21
+        minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -28,7 +28,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile files('libs/commons-codec-1.7.jar')
-    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support:design:25.1.0'
     compile 'com.android.support:support-v4:25.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:recyclerview-v7:25.1.0'

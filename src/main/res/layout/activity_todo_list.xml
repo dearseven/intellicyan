@@ -5,19 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="cyan.intellicyan.activities.TodoListActivity">
+
     <include layout="@layout/base_toolbar"></include>
 
-    <ImageButton
-        android:id="@+id/todo_add_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="0dp"
-        android:src="@android:drawable/ic_input_add"
-        android:background="#00ffffff"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/todo_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/todo_add_button" />
+        android:layout_marginTop="40dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/todo_add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/bottom_bar_color"
+        app:borderWidth="0dp"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        app:rippleColor="@color/status_bar_color" />
+
+
 </RelativeLayout>
