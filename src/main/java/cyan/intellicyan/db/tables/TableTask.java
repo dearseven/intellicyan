@@ -11,6 +11,7 @@ import cyan.intellicyan.db.InterfaceCRUD;
 
 /**
  * Created by wx on 2017/3/9.
+ * @deprecated
  */
 
 public class TableTask implements InterfaceCRUD<TableTask.TaskInfo> {

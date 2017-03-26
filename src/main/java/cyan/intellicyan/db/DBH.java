@@ -10,6 +10,7 @@ import cyan.intellicyan.db.tables.TableTask;
 
 /**
  * Created by apple on 2017/3/9.
+ * @deprecated
  */
 
 public class DBH extends SQLiteOpenHelper {

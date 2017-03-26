@@ -126,13 +126,23 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
 
     @Override
     public void whenOptionsItemSelected(MenuItem item) {
-
+        //Toast.makeText(getApplicationContext(), item.getItemId()+" "+item.getTitle() , Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.add_new_todo) {
+            startAddNewActivty();
+        }
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == floatAddNewButton.getId()) {
-            Toast.makeText(getApplicationContext(), "add new task!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "add new task!", Toast.LENGTH_SHORT).show();
+            startAddNewActivty();
         }
     }
+
+    //------------
+    private void startAddNewActivty() {
+        Toast.makeText(getApplicationContext(), "startAddNewActivty!", Toast.LENGTH_SHORT).show();
+    }
+
 }

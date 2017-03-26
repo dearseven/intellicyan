@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Created by wx on 2017/3/9.
+ * @deprecated
  */
 
 public interface InterfaceCRUD<T> {
