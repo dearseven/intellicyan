@@ -15,19 +15,34 @@
         android:layout_height="match_parent"
         android:layout_marginTop="40dp" />
 
+
+    <Button
+        android:id="@+id/expand_float_item_addNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:alpha="0"
+        android:background="@drawable/solid_squre"
+        android:padding="5dp"
+        android:text="新建事件"
+        android:textAlignment="center"
+        android:textColor="@android:color/white" />
+
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/todo_add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_input_add"
         app:backgroundTint="@color/bottom_bar_color"
         app:borderWidth="0dp"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
-        app:rippleColor="@color/status_bar_color" />
+        />
 
 
 </RelativeLayout>

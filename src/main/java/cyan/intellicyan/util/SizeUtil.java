@@ -1,4 +1,4 @@
-package com.teetaa.woyuanxian.util;
+package cyan.intellicyan.util;
 
 import java.math.BigDecimal;
 
@@ -40,7 +40,6 @@ public class SizeUtil {
 	 * 将px值转换为dip或dp值，保证尺寸大小不变
 	 * 
 	 * @param pxValue
-	 * @param scale
 	 *            （DisplayMetrics类中属性density）
 	 * @return
 	 */
@@ -53,7 +52,6 @@ public class SizeUtil {
 	 * 将dip或dp值转换为px值，保证尺寸大小不变
 	 * 
 	 * @param dipValue
-	 * @param scale
 	 *            （DisplayMetrics类中属性density）
 	 * @return
 	 */
@@ -76,7 +74,6 @@ public class SizeUtil {
 	 * 将px值转换为sp值，保证文字大小不变
 	 * 
 	 * @param pxValue
-	 * @param fontScale
 	 *            （DisplayMetrics类中属性scaledDensity）
 	 * @return
 	 */
@@ -89,7 +86,6 @@ public class SizeUtil {
 	 * 将sp值转换为px值，保证文字大小不变
 	 * 
 	 * @param spValue
-	 * @param fontScale
 	 *            （DisplayMetrics类中属性scaledDensity）
 	 * @return
 	 */
@@ -102,7 +98,6 @@ public class SizeUtil {
 	 * 计算高度为屏幕高度的0~1.0（好吧其实没做最大和最小限制呢）
 	 * 
 	 * @param context
-	 * @param spValue
 	 * @return
 	 */
 	public static int partOfHeight(Context context, float rate) {
@@ -114,7 +109,6 @@ public class SizeUtil {
 	 * 计算宽度为屏幕宽度的0~1.0（好吧其实没做最大和最小限制呢）
 	 * 
 	 * @param context
-	 * @param spValue
 	 * @return
 	 */
 	public static int partOfWidth(Context context, float rate) {
