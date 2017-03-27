@@ -3,16 +3,23 @@ package cyan.intellicyan.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import cyan.intellicyan.R;
 import cyan.intellicyan.activities.base.BaseCompatActivity;
+import cyan.intellicyan.cyanosql.DBClient;
+import cyan.intellicyan.util.DLog;
 import cyan.intellicyan.util.SizeUtil;
 
 public class TodoListActivity extends BaseCompatActivity implements View.OnClickListener {
@@ -143,6 +150,33 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
     //------------
     private void startAddNewActivty() {
         Toast.makeText(getApplicationContext(), "startAddNewActivty!", Toast.LENGTH_SHORT).show();
+
+        DBClient client = DBClient.getInstance(getApplication());
+        SQLiteDatabase db = client.getDb();
+
+        client.insert(db, "ttable1", new String[]{"a", "b"}, new String[]{"a value "+System.currentTimeMillis(), "b value "+System.currentTimeMillis()});
+        List<Map<String, String>> listMap = client.retrieve(db, "ttable1", null, null, null);
+        iterate(listMap);
+
+        client.insert(db, "ttable1", new String[]{"c"}, new String[]{"c value "+System.currentTimeMillis()});
+        listMap = client.retrieve(db, "ttable1", null, null, null);
+        iterate(listMap);
+
+        db.close();
+    }
+
+    private void iterate(List<Map<String, String>> lm) {
+        Iterator<Map<String, String>> it = lm.iterator();
+        while (it.hasNext()) {
+            Map<String, String> m = it.next();
+            DLog.log(TodoListActivity.class,"\n-----element-----");
+            Set<Map.Entry<String, String>> es = m.entrySet();
+            Iterator<Map.Entry<String, String>> esit = es.iterator();
+            while (esit.hasNext()) {
+                Map.Entry<String, String> et = esit.next();
+                DLog.log(TodoListActivity.class,et.getKey() + ":" + et.getValue());
+            }
+        }
     }
 
 }

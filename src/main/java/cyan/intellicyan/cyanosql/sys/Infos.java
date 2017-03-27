@@ -21,7 +21,7 @@ public class Infos implements Parcelable {
         sb.append(" ( ").append(colId)
                 .append(" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ");
         sb.append(colColletionName).append(" TEXT NOT NULL, ");
-        sb.append(colCollectionColumns).append(" TEXT NOT NULL, ");
+        sb.append(colCollectionColumns).append(" TEXT NOT NULL ");
         sb.append(");");
         return sb.toString();
     }

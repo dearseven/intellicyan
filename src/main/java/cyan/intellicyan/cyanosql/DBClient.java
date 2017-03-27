@@ -17,13 +17,14 @@ import cyan.intellicyan.cyanosql.sys.Infos;
 import cyan.intellicyan.util.DLog;
 
 /**
- * Created by apple on 2017/3/26.
+ * Created by wx on 2017/3/26.
  */
 
 public class DBClient extends SQLiteOpenHelper implements IDBClient {
+    private static String NAME = "intelliCyan_DB";
 
-    public static DBClient getInstance(Context ctx, String name) {
-        return SingleInstanceHolder.init(ctx, name);
+    public static DBClient getInstance(Context ctx) {
+        return SingleInstanceHolder.init(ctx);
     }
 
     public SQLiteDatabase getDb() {
@@ -33,9 +34,9 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
     private static class SingleInstanceHolder {
         private static DBClient _t = null;
 
-        private static DBClient init(Context ctx, String name) {
+        private static DBClient init(Context ctx) {
             if (_t == null)
-                _t = new DBClient(ctx, name, null, Config.DB_VERSION);
+                _t = new DBClient(ctx, NAME, null, Config.DB_VERSION);
             return _t;
         }
     }
@@ -186,36 +187,37 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
                 cv.put(Infos.colColletionName, tableName);
                 cv.put(Infos.colCollectionColumns, "");
                 db.insert(Infos.tableName, null, cv);
-            } else {//表存在，判断字段
-                //找到已有的字段
-                String columns = null;
-                Map<String, Byte> existCols = new HashMap<String, Byte>(csr.getCount());
-                while (csr.moveToNext()) {
-                    columns = csr.getString(csr.getColumnIndex(Infos.colCollectionColumns));
-                    String[] ec = columns.trim().split(",");
-                    for (int i = 0; i < ec.length; i++) {
-                        existCols.put(ec[i], new Byte((byte) 1));
-                    }
-                }
-                //如果cols不在existCols里面则需要创建
-                boolean addedNewCol = false;
-                for (int i = 0; i < cols.length; i++) {
-                    if (!existCols.containsKey(cols[i])) {
-                        DLog.log(DBClient.class, "创建字段：" + cols[i]);
-                        db.execSQL("ALTER TABLE " + tableName
-                                + " ADD COLUMN " + cols[i] + " text not null default ''; ");
-                        columns += "," + cols[i];
-                    }
-                }
-                if (addedNewCol) {
-                    DLog.log(DBClient.class, "字段有增加，修改后的总字段：" + columns);
-                    ContentValues cv = new ContentValues();
-                    cv.put(Infos.colCollectionColumns, columns);
-                    db.update(Infos.tableName, cv, Infos.colColletionName + " = ?", new String[]{tableName});
+            }
+            //判断字段
+            //找到已有的字段
+            String columns = null;
+            Map<String, Byte> existCols = new HashMap<String, Byte>(csr.getCount());
+            while (csr.moveToNext()) {
+                columns = csr.getString(csr.getColumnIndex(Infos.colCollectionColumns));
+                String[] ec = columns.trim().split(",");
+                for (int i = 0; i < ec.length; i++) {
+                    existCols.put(ec[i], new Byte((byte) 1));
                 }
             }
+            //如果cols不在existCols里面则需要创建
+            boolean addedNewCol = false;
+            for (int i = 0; i < cols.length; i++) {
+                if (!existCols.containsKey(cols[i])) {
+                    addedNewCol=true;
+                    DLog.log(DBClient.class, "创建字段：" + cols[i]);
+                    db.execSQL("ALTER TABLE " + tableName
+                            + " ADD COLUMN " + cols[i] + " text not null default ''; ");
+                    columns += "," + cols[i];
+                }
+            }
+            if (addedNewCol) {
+                DLog.log(DBClient.class, "字段有增加，修改后的总字段：" + columns);
+                ContentValues cv = new ContentValues();
+                cv.put(Infos.colCollectionColumns, columns);
+                db.update(Infos.tableName, cv, Infos.colColletionName + " = ?", new String[]{tableName});
+            }
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         } finally {
             if (csr != null && csr.isClosed() == false) {
                 csr.close();
