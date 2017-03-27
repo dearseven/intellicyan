@@ -10,6 +10,16 @@ import java.util.Map;
  */
 
 public interface IDBClient {
+    /**
+     * 原生查询
+     *
+     * @param db
+     * @param sql           select * from table where a=? and b=?
+     * @param selectionArgs new String[]{"fora","forb"};
+     * @param colNames      new String[]{"a","b"} 要查询的字段
+     * @return
+     */
+    public List<Map<String, String>> retrieve(SQLiteDatabase db, String sql, String[] selectionArgs, String[] colNames);
 
     /**
      * 查询，所有字段必须都存在,否则肯定是没有值的啊 对不对
@@ -20,7 +30,7 @@ public interface IDBClient {
      * @param cause
      * @return
      */
-    public List<Map<String, String>> retrieve(SQLiteDatabase db,String tableName, String[] cols, String[] where, String[] cause);
+    public List<Map<String, String>> retrieve(SQLiteDatabase db, String tableName, String[] cols, String where, String[] cause);
 
     /**
      * 插入数据库
@@ -30,7 +40,7 @@ public interface IDBClient {
      * @param vals
      * @return
      */
-    public boolean insert(SQLiteDatabase db,String tableName, String[] cols, String[] vals);
+    public boolean insert(SQLiteDatabase db, String tableName, String[] cols, String[] vals);
 
     /**
      * 修改数据库，where里的字段必须保证已经存在
@@ -42,7 +52,7 @@ public interface IDBClient {
      * @param cause
      * @return
      */
-    public boolean update(SQLiteDatabase db,String tableName, String[] cols, String[] vals, String[] where, String[] cause);
+    public boolean update(SQLiteDatabase db, String tableName, String[] cols, String[] vals, String where, String[] cause);
 
     /**
      * 删除,where里的字段必须保证已经存在
@@ -52,5 +62,5 @@ public interface IDBClient {
      * @param cause
      * @return
      */
-    public boolean delete(SQLiteDatabase db,String tableName, String[] where, String[] cause);
+    public boolean delete(SQLiteDatabase db, String tableName, String where, String[] cause);
 }

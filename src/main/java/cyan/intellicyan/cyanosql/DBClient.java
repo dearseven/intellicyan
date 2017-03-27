@@ -40,20 +40,69 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
         }
     }
 
-    public List<Map<String, String>> retrieve(SQLiteDatabase db, String tableName, String[] cols, String[] where, String[] cause) {
+
+    public List<Map<String, String>> retrieve(SQLiteDatabase db, String sql, String[] selectionArgs, String[] colNames) {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+        Cursor cs = null;
         try {
+            cs = db.rawQuery(sql, selectionArgs);
+            while (cs.moveToNext()) {
+                Map<String, String> m = new HashMap<String, String>();
+                if (colNames != null) {
+                    for (int i = 0; i < colNames.length; i++) {
+                        m.put(colNames[i], cs.getString(cs.getColumnIndex(colNames[i])));
+                    }
+                } else {
+                    int colNumbers = cs.getColumnCount();
+                    for (int i = 0; i < colNumbers; i++) {
+                        m.put(cs.getColumnName(i), cs.getString(cs.getColumnIndex(cs.getColumnName(i))));
+                    }
+                }
+                list.add(m);
+            }
         } catch (Exception ex) {
             db.close();
         } finally {
+            cs.close();
+        }
+        return list;
+    }
 
+    public List<Map<String, String>> retrieve(SQLiteDatabase db, String tableName, String[] cols, String where, String[] cause) {
+        List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+        Cursor cs = null;
+        try {
+            cs = db.query(tableName, cols, where, cause, null, null, null, null);
+            while (cs.moveToNext()) {
+                Map<String, String> m = new HashMap<String, String>();
+                if (cols != null) {
+                    for (int i = 0; i < cols.length; i++) {
+                        m.put(cols[i], cs.getString(cs.getColumnIndex(cols[i])));
+                    }
+                } else {
+                    int colNumbers = cs.getColumnCount();
+                    for (int i = 0; i < colNumbers; i++) {
+                        m.put(cs.getColumnName(i), cs.getString(cs.getColumnIndex(cs.getColumnName(i))));
+                    }
+                }
+                list.add(m);
+            }
+        } catch (Exception ex) {
+            db.close();
+        } finally {
+            cs.close();
         }
         return list;
     }
 
     public boolean insert(SQLiteDatabase db, String tableName, String[] cols, String[] vals) {
         try {
-            compareCols(db,tableName,cols);
+            compareCols(db, tableName, cols);
+            ContentValues cv = new ContentValues();
+            for (int i = 0; i < cols.length; i++) {
+                cv.put(cols[i], vals[i]);
+            }
+            db.insert(tableName, null, cv);
             return true;
         } catch (Exception ex) {
             db.close();
@@ -63,9 +112,14 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
         }
     }
 
-    public boolean update(SQLiteDatabase db, String tableName, String[] cols, String[] vals, String[] where, String[] cause) {
+    public boolean update(SQLiteDatabase db, String tableName, String[] cols, String[] vals, String where, String[] cause) {
         try {
-            compareCols(db,tableName,cols);
+            compareCols(db, tableName, cols);
+            ContentValues cv = new ContentValues();
+            for (int i = 0; i < cols.length; i++) {
+                cv.put(cols[i], vals[i]);
+            }
+            db.update(tableName, cv, where, cause);
             return true;
         } catch (Exception ex) {
             db.close();
@@ -75,8 +129,9 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
         }
     }
 
-    public boolean delete(SQLiteDatabase db, String tableName, String[] where, String[] cause) {
+    public boolean delete(SQLiteDatabase db, String tableName, String where, String[] cause) {
         try {
+            db.delete(tableName, where, cause);
             return true;
         } catch (Exception ex) {
             db.close();
@@ -127,10 +182,10 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
                 db.execSQL(sb.toString());
                 sb.setLength(0);
 
-                ContentValues cv=new ContentValues();
-                cv.put(Infos.colColletionName,tableName);
-                cv.put(Infos.colCollectionColumns,"");
-                db.insert(Infos.tableName,null,cv);
+                ContentValues cv = new ContentValues();
+                cv.put(Infos.colColletionName, tableName);
+                cv.put(Infos.colCollectionColumns, "");
+                db.insert(Infos.tableName, null, cv);
             } else {//表存在，判断字段
                 //找到已有的字段
                 String columns = null;
@@ -155,7 +210,7 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
                 if (addedNewCol) {
                     DLog.log(DBClient.class, "字段有增加，修改后的总字段：" + columns);
                     ContentValues cv = new ContentValues();
-                    cv.put(Infos.colCollectionColumns,columns);
+                    cv.put(Infos.colCollectionColumns, columns);
                     db.update(Infos.tableName, cv, Infos.colColletionName + " = ?", new String[]{tableName});
                 }
             }
