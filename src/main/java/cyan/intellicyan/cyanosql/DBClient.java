@@ -86,4 +86,17 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
+    //-----------下面的方法是用来多数据库结构判定的--------------
+
+    /**
+     * 对比字段
+     * @param db
+     * @param tableName
+     * @param cols 要插入数据的字段
+     */
+    public void compareCols(SQLiteDatabase db,String tableName,String [] cols){
+
+    }
+
 }
