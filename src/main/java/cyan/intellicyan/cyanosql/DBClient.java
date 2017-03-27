@@ -27,8 +27,12 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
         return SingleInstanceHolder.init(ctx);
     }
 
-    public SQLiteDatabase getDb() {
+    private SQLiteDatabase getWritableDb() {
         return getWritableDatabase();
+    }
+
+    private SQLiteDatabase getReadableDb() {
+        return getReadableDatabase();
     }
 
     private static class SingleInstanceHolder {
@@ -42,9 +46,10 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
     }
 
 
-    public List<Map<String, String>> retrieve(SQLiteDatabase db, String sql, String[] selectionArgs, String[] colNames) {
+    public List<Map<String, String>> retrieve( String sql, String[] selectionArgs, String[] colNames) {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         Cursor cs = null;
+        SQLiteDatabase db=getReadableDb();
         try {
             cs = db.rawQuery(sql, selectionArgs);
             while (cs.moveToNext()) {
@@ -62,16 +67,18 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
                 list.add(m);
             }
         } catch (Exception ex) {
-            db.close();
+            ex.printStackTrace();
         } finally {
             cs.close();
+            db.close();
         }
         return list;
     }
 
-    public List<Map<String, String>> retrieve(SQLiteDatabase db, String tableName, String[] cols, String where, String[] cause) {
+    public List<Map<String, String>> retrieve( String tableName, String[] cols, String where, String[] cause) {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         Cursor cs = null;
+        SQLiteDatabase db=getReadableDb();
         try {
             cs = db.query(tableName, cols, where, cause, null, null, null, null);
             while (cs.moveToNext()) {
@@ -89,14 +96,16 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
                 list.add(m);
             }
         } catch (Exception ex) {
-            db.close();
+           ex.printStackTrace();
         } finally {
             cs.close();
+            db.close();;
         }
         return list;
     }
 
-    public boolean insert(SQLiteDatabase db, String tableName, String[] cols, String[] vals) {
+    public boolean insert( String tableName, String[] cols, String[] vals) {
+        SQLiteDatabase db=getWritableDatabase();
         try {
             compareCols(db, tableName, cols);
             ContentValues cv = new ContentValues();
@@ -106,14 +115,15 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
             db.insert(tableName, null, cv);
             return true;
         } catch (Exception ex) {
-            db.close();
+            ex.printStackTrace();
             return false;
         } finally {
-
+            db.close();
         }
     }
 
-    public boolean update(SQLiteDatabase db, String tableName, String[] cols, String[] vals, String where, String[] cause) {
+    public boolean update( String tableName, String[] cols, String[] vals, String where, String[] cause) {
+        SQLiteDatabase db=getWritableDatabase();
         try {
             compareCols(db, tableName, cols);
             ContentValues cv = new ContentValues();
@@ -123,22 +133,21 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
             db.update(tableName, cv, where, cause);
             return true;
         } catch (Exception ex) {
-            db.close();
             return false;
         } finally {
-
+            db.close();
         }
     }
 
-    public boolean delete(SQLiteDatabase db, String tableName, String where, String[] cause) {
+    public boolean delete( String tableName, String where, String[] cause) {
+        SQLiteDatabase db=getWritableDatabase();
         try {
             db.delete(tableName, where, cause);
             return true;
         } catch (Exception ex) {
-            db.close();
             return false;
         } finally {
-
+            db.close();
         }
     }
 

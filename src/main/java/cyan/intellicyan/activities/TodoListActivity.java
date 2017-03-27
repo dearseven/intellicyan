@@ -3,7 +3,6 @@ package cyan.intellicyan.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.MenuItem;
@@ -18,7 +17,6 @@ import java.util.Set;
 
 import cyan.intellicyan.R;
 import cyan.intellicyan.activities.base.BaseCompatActivity;
-import cyan.intellicyan.cyanosql.DBClient;
 import cyan.intellicyan.util.DLog;
 import cyan.intellicyan.util.SizeUtil;
 
@@ -151,30 +149,42 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
     private void startAddNewActivty() {
         Toast.makeText(getApplicationContext(), "startAddNewActivty!", Toast.LENGTH_SHORT).show();
 
+        /*这个是测试cyannosql数据库的使用
         DBClient client = DBClient.getInstance(getApplication());
-        SQLiteDatabase db = client.getDb();
 
-        client.insert(db, "ttable1", new String[]{"a", "b"}, new String[]{"a value "+System.currentTimeMillis(), "b value "+System.currentTimeMillis()});
-        List<Map<String, String>> listMap = client.retrieve(db, "ttable1", null, null, null);
+        client.insert("ttable2", new String[]{"c"}, new String[]{"c value 1"});
+        List<Map<String, String>> listMap = client.retrieve("ttable2", null, null, null);
         iterate(listMap);
 
-        client.insert(db, "ttable1", new String[]{"c"}, new String[]{"c value "+System.currentTimeMillis()});
-        listMap = client.retrieve(db, "ttable1", null, null, null);
+        DLog.log(TodoListActivity.class, "\n~~~~~~~update~~~~~~~~");
+
+
+        client.update("ttable2", new String[]{"c1", "c2", "c"}, new String[]{"c11", "c22", "c"}, "c=?", new String[]{"c value 1"});
+        listMap = client.retrieve("ttable2", null, null, null);
         iterate(listMap);
 
-        db.close();
+        if (listMap.size() >= 2) {
+            DLog.log(TodoListActivity.class, "\n~~~~~~~~delete~~~~~~~");
+            DLog.log(TodoListActivity.class, "\n~~~~~~~~~~~~~~~");
+
+            client.delete("ttable2", "objKeyId=?", new String[]{"1"});
+            listMap = client.retrieve("ttable2", null, null, null);
+            iterate(listMap);
+        }
+        */
+
     }
 
     private void iterate(List<Map<String, String>> lm) {
         Iterator<Map<String, String>> it = lm.iterator();
         while (it.hasNext()) {
             Map<String, String> m = it.next();
-            DLog.log(TodoListActivity.class,"\n-----element-----");
+            DLog.log(TodoListActivity.class, "\n-----element-----");
             Set<Map.Entry<String, String>> es = m.entrySet();
             Iterator<Map.Entry<String, String>> esit = es.iterator();
             while (esit.hasNext()) {
                 Map.Entry<String, String> et = esit.next();
-                DLog.log(TodoListActivity.class,et.getKey() + ":" + et.getValue());
+                DLog.log(TodoListActivity.class, et.getKey() + ":" + et.getValue());
             }
         }
     }
