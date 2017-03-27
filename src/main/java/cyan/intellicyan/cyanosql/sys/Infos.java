@@ -10,6 +10,7 @@ import android.os.Parcelable;
 
 public class Infos implements Parcelable {
     public static final String tableName = "info_table";
+
     public static final String colId = "info_col_id";
     public static final String colColletionName = "info_col_names";
     public static final String colCollectionColumns = "info_col_cols";//{};

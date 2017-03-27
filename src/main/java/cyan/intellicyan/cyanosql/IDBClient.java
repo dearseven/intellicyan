@@ -1,5 +1,7 @@
 package cyan.intellicyan.cyanosql;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +20,7 @@ public interface IDBClient {
      * @param cause
      * @return
      */
-    public List<Map<String, String>> retrieve(String tableName, String[] cols, String[] where, String[] cause);
+    public List<Map<String, String>> retrieve(SQLiteDatabase db,String tableName, String[] cols, String[] where, String[] cause);
 
     /**
      * 插入数据库
@@ -28,7 +30,7 @@ public interface IDBClient {
      * @param vals
      * @return
      */
-    public boolean insert(String tableName, String[] cols, String[] vals);
+    public boolean insert(SQLiteDatabase db,String tableName, String[] cols, String[] vals);
 
     /**
      * 修改数据库，where里的字段必须保证已经存在
@@ -40,7 +42,7 @@ public interface IDBClient {
      * @param cause
      * @return
      */
-    public boolean update(String tableName, String[] cols, String[] vals, String[] where, String[] cause);
+    public boolean update(SQLiteDatabase db,String tableName, String[] cols, String[] vals, String[] where, String[] cause);
 
     /**
      * 删除,where里的字段必须保证已经存在
@@ -50,5 +52,5 @@ public interface IDBClient {
      * @param cause
      * @return
      */
-    public boolean delete(String tableName, String[] where, String[] cause);
+    public boolean delete(SQLiteDatabase db,String tableName, String[] where, String[] cause);
 }
