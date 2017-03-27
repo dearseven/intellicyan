@@ -203,11 +203,14 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
             boolean addedNewCol = false;
             for (int i = 0; i < cols.length; i++) {
                 if (!existCols.containsKey(cols[i])) {
-                    addedNewCol=true;
+                    addedNewCol = true;
                     DLog.log(DBClient.class, "创建字段：" + cols[i]);
                     db.execSQL("ALTER TABLE " + tableName
                             + " ADD COLUMN " + cols[i] + " text not null default ''; ");
-                    columns += "," + cols[i];
+                    if (columns != null)
+                        columns += "," + cols[i];
+                    else
+                        columns = cols[i];
                 }
             }
             if (addedNewCol) {
