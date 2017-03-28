@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +38,7 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
     public FloatingActionButton floatingActionButton;
     public Button floatAddNewButton;
     public boolean isFirstInitDone = false;
+    public AppBarLayout appBarLayout = null;
 
     private float distance = 0;
 
@@ -49,6 +51,7 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
         //getSubTitle().setText("更多");
 
         new LoadTodoItemsTask().execute();
+        appBarLayout = (AppBarLayout) findViewById(R.id.base_app_bar_layout);
     }
 
     private class LoadTodoItemsTask extends AsyncTask<Void, TodoItem, List<TodoItem>> {
@@ -156,6 +159,22 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
         });
         //结束，处理floatbutton的点击动画
 
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset == 0) {
+                    floatingActionButton.setVisibility(View.VISIBLE);
+
+                } else {
+                    DLog.log(TodoListActivity.class,floatAddNewButton.getAlpha()+"");
+                    if(floatAddNewButton.getAlpha()>=1.0f){
+                        floatingActionButton.callOnClick();
+                    }
+                    floatingActionButton.setVisibility(View.GONE);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -198,7 +217,7 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
 
     //------------
     private void startAddNewActivty() {
-        if(recycler==null){
+        if (recycler == null) {
             Toast.makeText(getApplicationContext(), "正在初始化，请稍候!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -225,7 +244,7 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
 
         DLog.log(TodoListActivity.class, item.toString());
         DLog.log(TodoListActivity.class, itemDetail.toString());
-        recycler.insertItem(0,item, true);
+        recycler.insertItem(0, item, true);
 
         /*这个是测试cyannosql数据库的使用
         DBClient client = DBClient.getInstance(getApplication());

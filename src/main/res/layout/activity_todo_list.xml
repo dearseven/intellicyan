@@ -6,15 +6,21 @@
     android:layout_height="match_parent"
     tools:context="cyan.intellicyan.activities.TodoListActivity">
 
-    <include layout="@layout/base_toolbar"></include>
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/todo_recyclerview"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="40dp" />
+        android:layout_height="match_parent">
 
+        <include layout="@layout/base_toolbar"></include>
+
+        <!-- 记得修改 toorbar的app:layout_scrollFlags-->
+        <!--  android:layout_marginTop="?android:attr/actionBarSize"-->
+        <android.support.v7.widget.RecyclerView
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/todo_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </android.support.design.widget.CoordinatorLayout>
 
     <Button
         android:id="@+id/expand_float_item_addNew"

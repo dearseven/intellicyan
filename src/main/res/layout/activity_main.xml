@@ -12,13 +12,13 @@
         android:id="@+id/tb"
         layout="@layout/base_toolbar"></include>
 
-    <!-- 这里用40dp是因为base_tool的高度设置了40dp-->
+
     <FrameLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/navigation"
-        android:layout_marginTop="40dp"></FrameLayout>
+        android:layout_marginTop="?android:attr/actionBarSize"></FrameLayout>
 
     <!--         android:background="?android:attr/windowBackground"-->
     <android.support.design.widget.BottomNavigationView

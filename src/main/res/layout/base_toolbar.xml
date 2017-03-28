@@ -4,12 +4,16 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:id="@+id/base_app_bar_layout"
+        android:layout_height="wrap_content">
 
+
+        <!--关于 toorbalr的一部分特效，请看activity_todo_list.xml的CoordinatorLayout里的部分 -->
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?android:attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
             app:theme="@style/ToolbarPopupTheme">
             <!--自定义toolbar的title 和subtitle -->
             <!--
