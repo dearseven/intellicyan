@@ -13,7 +13,6 @@ import java.util.List;
 
 import cyan.intellicyan.R;
 import cyan.intellicyan.beans.TodoItem;
-import cyan.intellicyan.util.DLog;
 
 /**
  * Created by wx on 2017/3/15.
@@ -103,7 +102,10 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
      * @param refreshView 是否刷新视图
      */
     public void insertItem(int index, TodoItem item, boolean refreshView) {
-
+        todos.add(index,item);
+        if (refreshView) {
+            notifyDataSetChanged();
+        }
     }
 
     /**
@@ -113,7 +115,12 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
      * @param refreshView 是否刷新视图
      */
     public void appendItem(List<TodoItem> items, boolean refreshView) {
-
+        for (int i=0;i<items.size();i++){
+            todos.add(items.get(i));
+        }
+        if (refreshView) {
+            notifyDataSetChanged();
+        }
     }
 
     /**
@@ -124,7 +131,6 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
      */
     public void appendItem(TodoItem item, boolean refreshView) {
         todos.add(item);
-        DLog.log(TodoListRecycler.class, todos.size() + "");
         if (refreshView) {
             notifyDataSetChanged();
         }
@@ -136,6 +142,10 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
      * @param refreshView 是否刷新视图
      */
     public void clearItem(boolean refreshView) {
+        todos.clear();
+        if (refreshView) {
+            notifyDataSetChanged();
+        }
     }
 
     /**
@@ -145,7 +155,10 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
      * @param refreshView 是否刷新视图
      */
     public void delItem(int index, boolean refreshView) {
-
+        todos.remove(index);
+        if (refreshView) {
+            notifyDataSetChanged();
+        }
     }
 
     /**
@@ -155,7 +168,15 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
      * @param refreshView 是否刷新视图
      */
     public void delItem(TodoItem item, boolean refreshView) {
-
+        for(int i=0;i<todos.size();i++){
+            if(todos.get(i).objKeyId==item.objKeyId){
+                todos.remove(i);
+                break;
+            }
+        }
+        if (refreshView) {
+            notifyDataSetChanged();
+        }
     }
 
     /**
