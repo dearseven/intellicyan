@@ -1,9 +1,6 @@
 package cyan.intellicyan.components.todolistview;
 
-import android.content.Context;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -29,13 +26,12 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
         return 0;
     }
 
-    public class TodoItemHolder extends RecyclerView.ViewHolder{
+    public class TodoItemHolder extends RecyclerView.ViewHolder {
         public TodoItemHolder(View itemView) {
             super(itemView);
         }
     }
     //------end RecyclerView.Adapter and ViewHolder------
-
 
 
 }

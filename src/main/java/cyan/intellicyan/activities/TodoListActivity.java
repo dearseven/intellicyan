@@ -17,7 +17,6 @@ import java.util.Set;
 
 import cyan.intellicyan.R;
 import cyan.intellicyan.activities.base.BaseCompatActivity;
-import cyan.intellicyan.cyasql.DBClient;
 import cyan.intellicyan.util.DLog;
 import cyan.intellicyan.util.SizeUtil;
 
