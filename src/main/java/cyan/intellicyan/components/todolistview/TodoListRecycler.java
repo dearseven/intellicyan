@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -51,20 +52,13 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
         holder.title.setText(item.title);
         holder.datetime.setText(item.datetime);
 
-//        final TodoItemHolder hd = holder;
-//        holder.title.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                father.onItemListRecyclerClick(hd.title.getId(), item);
-//            }
-//        });
-//
-//        holder.datetime.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                father.onItemListRecyclerClick(hd.datetime.getId(), item);
-//            }
-//        });
+
+        holder.titleAndDatetimeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                father.onItemListRecyclerClick(0, item);
+            }
+        });
     }
 
     @Override
@@ -76,11 +70,13 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
     public class TodoItemHolder extends RecyclerView.ViewHolder {
         public TextView title;
         public TextView datetime;
+        public LinearLayout titleAndDatetimeLayout;
 
         public TodoItemHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.todo_item_detail_title);
             datetime = (TextView) itemView.findViewById(R.id.todo_item_detail_datetime);
+            titleAndDatetimeLayout = (LinearLayout) itemView.findViewById(R.id.todo_item_detail_linear_layout);
         }
     }
     //------end RecyclerView.Adapter and ViewHolder------
@@ -102,7 +98,7 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
      * @param refreshView 是否刷新视图
      */
     public void insertItem(int index, TodoItem item, boolean refreshView) {
-        todos.add(index,item);
+        todos.add(index, item);
         if (refreshView) {
             notifyDataSetChanged();
         }
@@ -115,7 +111,7 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
      * @param refreshView 是否刷新视图
      */
     public void appendItem(List<TodoItem> items, boolean refreshView) {
-        for (int i=0;i<items.size();i++){
+        for (int i = 0; i < items.size(); i++) {
             todos.add(items.get(i));
         }
         if (refreshView) {
@@ -168,8 +164,8 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
      * @param refreshView 是否刷新视图
      */
     public void delItem(TodoItem item, boolean refreshView) {
-        for(int i=0;i<todos.size();i++){
-            if(todos.get(i).objKeyId==item.objKeyId){
+        for (int i = 0; i < todos.size(); i++) {
+            if (todos.get(i).objKeyId == item.objKeyId) {
                 todos.remove(i);
                 break;
             }

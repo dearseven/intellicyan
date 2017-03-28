@@ -29,4 +29,6 @@ public class TaskListFragment extends SuperFragment {
         return inflater.inflate(R.layout.fragment_task_list, container, false);
     }
 
+
+
 }
