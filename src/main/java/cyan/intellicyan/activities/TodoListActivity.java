@@ -17,10 +17,11 @@ import java.util.Set;
 
 import cyan.intellicyan.R;
 import cyan.intellicyan.activities.base.BaseCompatActivity;
+import cyan.intellicyan.components.todolistview.TodoListRecycler;
 import cyan.intellicyan.util.DLog;
 import cyan.intellicyan.util.SizeUtil;
 
-public class TodoListActivity extends BaseCompatActivity implements View.OnClickListener {
+public class TodoListActivity extends BaseCompatActivity implements View.OnClickListener, TodoListRecycler.Father {
     public static final String EXTRA_DATE_Y = "extra_date_y";
     public static final String EXTRA_DATE_M = "extra_date_m";
     public static final String EXTRA_DATE_D = "extra_date_d";
@@ -189,4 +190,13 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
         }
     }
 
+    @Override
+    public <T> T findFatherViewById(int id) {
+        return (T) findViewById(id);
+    }
+
+    @Override
+    public void onItemListRecyclerClick(int viewId, Object param) {
+        Toast.makeText(this, "viewid:" + viewId + ",param:" + param, Toast.LENGTH_SHORT).show();
+    }
 }

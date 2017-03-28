@@ -6,14 +6,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 import cyan.intellicyan.R;
+import cyan.intellicyan.beans.TodoItem;
 
 /**
  * Created by wx on 2017/3/15.
  */
 
 public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.TodoItemHolder> {
+    private List<TodoItem> todos = null;
+    private RecyclerView rv;
+    private Father father;
 
+    public TodoListRecycler(Father father, List<TodoItem> todos, int recyclerViewId) {
+        this.father = father;
+        //
+        this.todos = todos;
+        this.rv = father.findFatherViewById(recyclerViewId);
+    }
 
     //------start RecyclerView.Adapter and ViewHolder------
     @Override
@@ -30,7 +42,7 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
 
     @Override
     public int getItemCount() {
-        return 0;
+        return todos.size();
     }
 
 
@@ -46,6 +58,76 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
     }
     //------end RecyclerView.Adapter and ViewHolder------
 
+    public interface Father {
+        <T> T findFatherViewById(int id);
 
+        void onItemListRecyclerClick(int viewId, Object param);
+    }
+
+    /**
+     * 插入一个todoitem
+     *
+     * @param index
+     * @param item
+     * @param refreshView 是否刷新视图
+     */
+    public void insertItem(int index, TodoItem item, boolean refreshView) {
+
+    }
+
+    /**
+     * 追加一组清除所有todoitem
+     *
+     * @param items
+     * @param refreshView 是否刷新视图
+     */
+    public void appendItem(List<TodoItem> items, boolean refreshView) {
+
+    }
+
+    /**
+     * 追加一个item
+     *
+     * @param item
+     * @param refreshView 是否刷新视图
+     */
+    public void appendItem(TodoItem item, boolean refreshView) {
+
+    }
+
+    /**
+     * 清除所有todoitem
+     *
+     * @param refreshView 是否刷新视图
+     */
+    public void clearItem(boolean refreshView) {
+    }
+
+    /**
+     * 删除一个todoitem，根据是索引号
+     *
+     * @param index
+     * @param refreshView 是否刷新视图
+     */
+    public void delItem(int index, boolean refreshView) {
+
+    }
+
+    /**
+     * 删除一个todoitem，实际上是根据objKeyId
+     *
+     * @param item
+     * @param refreshView 是否刷新视图
+     */
+    public void delItem(TodoItem item, boolean refreshView) {
+
+    }
+
+    /**
+     * 释放一下activity或者fragment
+     */
+    public void release() {
+        father = null;
+    }
 
 }
