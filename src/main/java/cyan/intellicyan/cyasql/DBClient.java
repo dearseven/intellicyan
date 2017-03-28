@@ -1,4 +1,4 @@
-package cyan.intellicyan.cyanosql;
+package cyan.intellicyan.cyasql;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import cyan.intellicyan.Config;
-import cyan.intellicyan.cyanosql.sys.Infos;
+import cyan.intellicyan.cyasql.sys.Infos;
 import cyan.intellicyan.util.DLog;
 
 /**

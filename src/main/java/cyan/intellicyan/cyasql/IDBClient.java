@@ -1,4 +1,4 @@
-package cyan.intellicyan.cyanosql;
+package cyan.intellicyan.cyasql;
 
 import java.util.List;
 import java.util.Map;

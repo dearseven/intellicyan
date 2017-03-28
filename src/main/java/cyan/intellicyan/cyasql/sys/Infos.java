@@ -1,4 +1,4 @@
-package cyan.intellicyan.cyanosql.sys;
+package cyan.intellicyan.cyasql.sys;
 
 
 import android.os.Parcel;

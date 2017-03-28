@@ -17,6 +17,7 @@ import java.util.Set;
 
 import cyan.intellicyan.R;
 import cyan.intellicyan.activities.base.BaseCompatActivity;
+import cyan.intellicyan.cyasql.DBClient;
 import cyan.intellicyan.util.DLog;
 import cyan.intellicyan.util.SizeUtil;
 
@@ -171,7 +172,7 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
             listMap = client.retrieve("ttable2", null, null, null);
             iterate(listMap);
         }
-        */
+*/
 
     }
 
