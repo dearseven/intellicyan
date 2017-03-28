@@ -3,6 +3,7 @@ package cyan.intellicyan.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.MenuItem;
@@ -10,14 +11,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import cyan.intellicyan.R;
 import cyan.intellicyan.activities.base.BaseCompatActivity;
+import cyan.intellicyan.beans.TodoItem;
+import cyan.intellicyan.beans.TodoItemDetail;
 import cyan.intellicyan.components.todolistview.TodoListRecycler;
+import cyan.intellicyan.cyasql.DBClient;
 import cyan.intellicyan.util.DLog;
 import cyan.intellicyan.util.SizeUtil;
 
@@ -32,11 +40,53 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
 
     private float distance = 0;
 
+    TodoListRecycler recycler = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getToolbarTitle().setText("主界面");
         //getSubTitle().setText("更多");
+
+        new LoadTodoItemsTask().execute();
+    }
+
+    private class LoadTodoItemsTask extends AsyncTask<Void, TodoItem, List<TodoItem>> {
+
+        @Override
+        protected List<TodoItem> doInBackground(Void... params) {
+            DBClient client = DBClient.getInstance(getApplication());
+            List<Map<String, String>> mapList = client.retrieve(TodoItem.TABLE_NAME, null, null, null, null, null, "objKeyId desc", null);
+            List<TodoItem> list = new ArrayList<TodoItem>(mapList.size());
+            Map<String, String> m = null;
+            TodoItem item = null;
+            for (int i = 0; i < mapList.size(); i++) {
+                m = mapList.get(i);
+                item = new TodoItem();
+                item.datetime = m.get(TodoItem.col.datetime.name());
+                item.uuid = m.get(TodoItem.col.uuid.name());
+                item.title = m.get(TodoItem.col.title.name());
+                item.objKeyId = Integer.parseInt(m.get(TodoItem.col.objKeyId.name()));
+                list.add(item);
+                publishProgress(item);
+            }
+            return list;
+        }
+
+        @Override
+        protected void onProgressUpdate(TodoItem... items) {
+            super.onProgressUpdate(items);
+            TodoItem item = items[0];
+            DLog.log(LoadTodoItemsTask.class, "获取到item：" + item.toString());
+        }
+
+        @Override
+        protected void onPostExecute(List<TodoItem> list) {
+            super.onPostExecute(list);
+            recycler = new TodoListRecycler(TodoListActivity.this, list, R.id.todo_recyclerview);
+
+        }
+
     }
 
     /**
@@ -148,7 +198,34 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
 
     //------------
     private void startAddNewActivty() {
+        if(recycler==null){
+            Toast.makeText(getApplicationContext(), "正在初始化，请稍候!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Toast.makeText(getApplicationContext(), "startAddNewActivty!", Toast.LENGTH_SHORT).show();
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        DBClient client = DBClient.getInstance(getApplication());
+
+        TodoItem item = new TodoItem();
+        item.uuid = UUID.randomUUID().toString();
+        item.title = "测试:" + item.uuid;
+        item.datetime = format.format(new Date());
+        String col[] = new String[]{TodoItem.col.title.name(), TodoItem.col.datetime.name(), TodoItem.col.uuid.name()};
+        String vals[] = new String[]{item.title, item.datetime, item.uuid};
+        client.insert(TodoItem.TABLE_NAME, col, vals);
+
+        TodoItemDetail itemDetail = new TodoItemDetail();
+        itemDetail.uuid = UUID.randomUUID().toString();
+        itemDetail.todoItemUuid = item.uuid;
+        col = new String[]{TodoItemDetail.col.uuid.name(), TodoItemDetail.col.todoItemUuid.name()};
+        vals = new String[]{itemDetail.uuid, itemDetail.todoItemUuid};
+        client.insert(TodoItemDetail.TABLE_NAME, col, vals);
+
+        DLog.log(TodoListActivity.class, item.toString());
+        DLog.log(TodoListActivity.class, itemDetail.toString());
+        recycler.insertItem(0,item, true);
 
         /*这个是测试cyannosql数据库的使用
         DBClient client = DBClient.getInstance(getApplication());
@@ -198,5 +275,10 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
     @Override
     public void onItemListRecyclerClick(int viewId, Object param) {
         Toast.makeText(this, "viewid:" + viewId + ",param:" + param, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public <T> T getAnyContext() {
+        return (T) this;
     }
 }

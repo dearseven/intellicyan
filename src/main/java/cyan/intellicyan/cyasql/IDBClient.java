@@ -1,5 +1,7 @@
 package cyan.intellicyan.cyasql;
 
+import android.support.annotation.Nullable;
+
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +32,7 @@ public interface IDBClient {
      * @param cause
      * @return
      */
-    public List<Map<String, String>> retrieve(String tableName, String[] cols, String where, String[] cause);
+    public List<Map<String, String>> retrieve(String tableName, String[] cols, String where, String[] cause, @Nullable String group, @Nullable String having, @Nullable String order, @Nullable String limit);
 
     /**
      * 插入数据库

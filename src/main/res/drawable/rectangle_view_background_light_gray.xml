@@ -15,7 +15,7 @@
     <item android:state_focused="true">
         <shape android:shape="rectangle">
             <padding android:bottom="1dp" android:left="1dp" android:right="1dp" android:top="1dp"></padding>
-            <solid android:color="#eee" />
+            <solid android:color="#ddd" />
 
             <stroke android:width="1dp" android:color="#ddd" />
 
@@ -23,7 +23,7 @@
         </shape>
     </item>
     <!-- 初始状态 -->
-    <item>
+    <item >
         <shape android:shape="rectangle">
             <padding android:bottom="1dp" android:left="1dp" android:right="1dp" android:top="1dp"></padding>
             <solid android:color="#eee" />

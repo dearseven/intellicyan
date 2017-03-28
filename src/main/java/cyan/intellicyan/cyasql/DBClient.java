@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.Nullable;
 
 
 import java.util.ArrayList;
@@ -46,10 +47,10 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
     }
 
 
-    public List<Map<String, String>> retrieve( String sql, String[] selectionArgs, String[] colNames) {
+    public List<Map<String, String>> retrieve(String sql, String[] selectionArgs, String[] colNames) {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         Cursor cs = null;
-        SQLiteDatabase db=getReadableDb();
+        SQLiteDatabase db = getReadableDb();
         try {
             cs = db.rawQuery(sql, selectionArgs);
             while (cs.moveToNext()) {
@@ -69,18 +70,19 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            cs.close();
+            if (cs != null)
+                cs.close();
             db.close();
         }
         return list;
     }
 
-    public List<Map<String, String>> retrieve( String tableName, String[] cols, String where, String[] cause) {
+    public List<Map<String, String>> retrieve(String tableName, String[] cols, String where, String[] cause, @Nullable String group, @Nullable String having, @Nullable String order, @Nullable String limit) {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         Cursor cs = null;
-        SQLiteDatabase db=getReadableDb();
+        SQLiteDatabase db = getReadableDb();
         try {
-            cs = db.query(tableName, cols, where, cause, null, null, null, null);
+            cs = db.query(tableName, cols, where, cause, group, having, order, limit);
             while (cs.moveToNext()) {
                 Map<String, String> m = new HashMap<String, String>();
                 if (cols != null) {
@@ -96,16 +98,17 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
                 list.add(m);
             }
         } catch (Exception ex) {
-           ex.printStackTrace();
+            ex.printStackTrace();
         } finally {
-            cs.close();
-            db.close();;
+            if (cs != null)
+                cs.close();
+            db.close();
         }
         return list;
     }
 
-    public boolean insert( String tableName, String[] cols, String[] vals) {
-        SQLiteDatabase db=getWritableDatabase();
+    public boolean insert(String tableName, String[] cols, String[] vals) {
+        SQLiteDatabase db = getWritableDatabase();
         try {
             compareCols(db, tableName, cols);
             ContentValues cv = new ContentValues();
@@ -122,8 +125,8 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
         }
     }
 
-    public boolean update( String tableName, String[] cols, String[] vals, String where, String[] cause) {
-        SQLiteDatabase db=getWritableDatabase();
+    public boolean update(String tableName, String[] cols, String[] vals, String where, String[] cause) {
+        SQLiteDatabase db = getWritableDatabase();
         try {
             compareCols(db, tableName, cols);
             ContentValues cv = new ContentValues();
@@ -139,8 +142,8 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
         }
     }
 
-    public boolean delete( String tableName, String where, String[] cause) {
-        SQLiteDatabase db=getWritableDatabase();
+    public boolean delete(String tableName, String where, String[] cause) {
+        SQLiteDatabase db = getWritableDatabase();
         try {
             db.delete(tableName, where, cause);
             return true;

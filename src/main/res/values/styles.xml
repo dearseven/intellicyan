@@ -13,6 +13,7 @@
         <item name="colorPrimary">@color/tool_bar_color</item><!--这个是toolbar的背景色-->
         <item name="colorPrimaryDark">@color/status_bar_color</item><!--这个是系统状态栏的背景色-->
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:listDivider">@drawable/white_devide</item>
     </style>
 
     <!-- 给toolbar的菜单配置的主题,要记得应用到布局文件的toolbar上 app:theme-->

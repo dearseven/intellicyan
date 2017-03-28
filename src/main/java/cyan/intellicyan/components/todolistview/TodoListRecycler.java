@@ -1,5 +1,8 @@
 package cyan.intellicyan.components.todolistview;
 
+import android.content.Context;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import java.util.List;
 
 import cyan.intellicyan.R;
 import cyan.intellicyan.beans.TodoItem;
+import cyan.intellicyan.util.DLog;
 
 /**
  * Created by wx on 2017/3/15.
@@ -25,6 +29,12 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
         //
         this.todos = todos;
         this.rv = father.findFatherViewById(recyclerViewId);
+        Context ctx = father.getAnyContext();
+        this.rv.setLayoutManager(new LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false));
+        this.rv.addItemDecoration(new DividerItemDecoration(ctx, LinearLayoutManager.VERTICAL));
+        this.rv.setItemAnimator(new DefaultItemAnimator());
+        this.rv.setAdapter(this);
+        notifyDataSetChanged();
     }
 
     //------start RecyclerView.Adapter and ViewHolder------
@@ -37,7 +47,25 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
 
     @Override
     public void onBindViewHolder(TodoItemHolder holder, int position) {
+        final TodoItem item = todos.get(position);
 
+        holder.title.setText(item.title);
+        holder.datetime.setText(item.datetime);
+
+//        final TodoItemHolder hd = holder;
+//        holder.title.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                father.onItemListRecyclerClick(hd.title.getId(), item);
+//            }
+//        });
+//
+//        holder.datetime.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                father.onItemListRecyclerClick(hd.datetime.getId(), item);
+//            }
+//        });
     }
 
     @Override
@@ -62,6 +90,9 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
         <T> T findFatherViewById(int id);
 
         void onItemListRecyclerClick(int viewId, Object param);
+
+        <T> T getAnyContext();
+
     }
 
     /**
@@ -92,7 +123,11 @@ public class TodoListRecycler extends RecyclerView.Adapter<TodoListRecycler.Todo
      * @param refreshView 是否刷新视图
      */
     public void appendItem(TodoItem item, boolean refreshView) {
-
+        todos.add(item);
+        DLog.log(TodoListRecycler.class, todos.size() + "");
+        if (refreshView) {
+            notifyDataSetChanged();
+        }
     }
 
     /**

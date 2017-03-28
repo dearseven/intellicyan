@@ -8,42 +8,24 @@ package cyan.intellicyan.beans;
  */
 
 public class TodoItem {
+    public static String TABLE_NAME = "todoitem";
+
     public static enum col {
-        objKeyId, title, detetime
+        objKeyId, title, datetime, uuid
     }
 
-    private int objKeyId;
-    private String title;
-    private String datetime;
+    public int objKeyId;
+    public String title;
+    public String datetime;
+    public String uuid;
 
-    /**
-     * 真的数据
-     */
-    public static class TodoDetail {
-
-    }
-
-    public int getObjKeyId() {
-        return objKeyId;
-    }
-
-    public void setObjKeyId(int objKeyId) {
-        this.objKeyId = objKeyId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDatetime() {
-        return datetime;
-    }
-
-    public void setDatetime(String datetime) {
-        this.datetime = datetime;
+    @Override
+    public String toString() {
+        return "TodoItem{" +
+                "objKeyId=" + objKeyId +
+                ", title='" + title + '\'' +
+                ", datetime='" + datetime + '\'' +
+                ", uuid='" + uuid + '\'' +
+                '}';
     }
 }
