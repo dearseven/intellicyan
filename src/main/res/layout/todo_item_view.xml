@@ -1,23 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#000">
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/todo_item_date_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical"
+        android:visibility="gone"></LinearLayout>
 
     <LinearLayout
-        android:background="@drawable/corner_circle"
         android:id="@+id/todo_item_detail_linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="98dp"
+        android:layout_height="99dp"
+        android:background="@drawable/rectangle_view_background_light_gray"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
 
+            <TextView
+                android:id="@+id/todo_item_detail_title"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="事项标题" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <TextView
+                android:id="@+id/todo_item_detail_datetime"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="yyyy-MM-dd HH:mm" />
+        </LinearLayout>
+        <View
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"></View>
     </LinearLayout>
 </LinearLayout>
