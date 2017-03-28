@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,11 +46,14 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
     }
 
 
-    public List<Map<String, String>> retrieve(String sql, String[] selectionArgs, String[] colNames) {
+    public List<Map<String, String>> retrieve(String tableName, String sql, String[] selectionArgs, String[] colNames) {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         Cursor cs = null;
         SQLiteDatabase db = getReadableDb();
         try {
+            if (!ifTableExist(db, tableName)) {
+                throw new NotSuchATableException();
+            }
             cs = db.rawQuery(sql, selectionArgs);
             while (cs.moveToNext()) {
                 Map<String, String> m = new HashMap<String, String>();
@@ -67,6 +69,9 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
                 }
                 list.add(m);
             }
+        } catch (NotSuchATableException ex) {
+            DLog.log(DBClient.class, "表" + tableName + "不存在!");
+            ex.printStackTrace();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -82,6 +87,9 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
         Cursor cs = null;
         SQLiteDatabase db = getReadableDb();
         try {
+            if (!ifTableExist(db, tableName)) {
+                throw new NotSuchATableException();
+            }
             cs = db.query(tableName, cols, where, cause, group, having, order, limit);
             while (cs.moveToNext()) {
                 Map<String, String> m = new HashMap<String, String>();
@@ -97,6 +105,9 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
                 }
                 list.add(m);
             }
+        } catch (NotSuchATableException ex) {
+            DLog.log(DBClient.class, "表" + tableName + "不存在!");
+            ex.printStackTrace();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -145,8 +156,14 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
     public boolean delete(String tableName, String where, String[] cause) {
         SQLiteDatabase db = getWritableDatabase();
         try {
+            if (!ifTableExist(db, tableName)) {
+                throw new NotSuchATableException();
+            }
             db.delete(tableName, where, cause);
             return true;
+        } catch (NotSuchATableException ex) {
+            DLog.log(DBClient.class, "表" + tableName + "不存在!");
+            return false;
         } catch (Exception ex) {
             return false;
         } finally {
@@ -171,6 +188,33 @@ public class DBClient extends SQLiteOpenHelper implements IDBClient {
     }
 
     //-----------下面的方法是用来多数据库结构判定的--------------
+    private class NotSuchATableException extends Exception {
+
+    }
+
+    /**
+     * 在查询和删除的时候检查表是否存在
+     *
+     * @param db
+     * @param tableName
+     * @return
+     */
+    public boolean ifTableExist(SQLiteDatabase db, String tableName) {
+        Cursor csr = null;
+        try {
+            //先找看看表存在还是不存在
+            csr = db.query(Infos.tableName, null, Infos.colColletionName + " = ?", new String[]{tableName}, null, null, null);
+            if (csr.getCount() == 0) //表不存在
+                return false;
+            else
+                return true;
+        } catch (Exception ex) {
+            return false;
+        } finally {
+            if (csr != null) csr.close();
+        }
+    }
+
 
     /**
      * 对比字段

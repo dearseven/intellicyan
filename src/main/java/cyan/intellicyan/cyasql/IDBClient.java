@@ -16,12 +16,13 @@ public interface IDBClient {
     /**
      * 原生查询
      *
+     * @param tableName
      * @param sql           select * from table where a=? and b=?
      * @param selectionArgs new String[]{"fora","forb"};
      * @param colNames      new String[]{"a","b"} 要查询的字段
      * @return
      */
-    public List<Map<String, String>> retrieve(String sql, String[] selectionArgs, String[] colNames);
+    public List<Map<String, String>> retrieve(String tableName, String sql, String[] selectionArgs, String[] colNames);
 
     /**
      * 查询，所有字段必须都存在,否则肯定是没有值的啊 对不对
