@@ -23,7 +23,7 @@
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <!-- 如果要让ImageView达到最小高度的时候消失，需要放在toolbar的上方-->
+            <!-- 如果要让ImageView达到最小高度的时候消失，需要放在toolbar的上方
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,7 +31,13 @@
                 android:scaleType="fitXY"
                 android:src="@mipmap/img_1"
                 app:layout_collapseMode="parallax"
-                app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed" />
+                app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed" />-->
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/h_s_vp"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:minHeight="100dp"></android.support.v4.view.ViewPager>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
