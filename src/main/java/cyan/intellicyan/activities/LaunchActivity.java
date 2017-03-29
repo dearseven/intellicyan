@@ -17,6 +17,8 @@ import cyan.intellicyan.R;
  * status bar and navigation/system bar) with user interaction.
  */
 public class LaunchActivity extends AppCompatActivity {
+    public static final Class GO_INTO_CLASS = ScrollShowActivity.class;
+
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -114,11 +116,11 @@ public class LaunchActivity extends AppCompatActivity {
         h.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i=new Intent(LaunchActivity.this,MainActivity.class);
+                Intent i = new Intent(LaunchActivity.this, GO_INTO_CLASS);
                 startActivity(i);
                 finish();
             }
-        },1000);
+        }, 1000);
     }
 
     @Override

@@ -23,7 +23,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.QuestionsActivity" />
-        <activity android:name=".activities.TodoListActivity"></activity>
+        <activity android:name=".activities.TodoListActivity" />
+        <activity
+            android:name=".activities.ScrollShowActivity"
+            android:label="@string/title_activity_scroll_show"
+            android:theme="@style/AppTheme.BaseCompat"></activity>
     </application>
 
 </manifest>

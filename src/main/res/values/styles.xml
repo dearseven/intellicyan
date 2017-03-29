@@ -44,4 +44,8 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="AppTheme.BaseCompat.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.BaseCompat.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>
