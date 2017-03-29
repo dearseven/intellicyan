@@ -27,6 +27,10 @@
         <activity
             android:name=".activities.ScrollShowActivity"
             android:label="@string/title_activity_scroll_show"
+            android:theme="@style/AppTheme.BaseCompat" />
+        <activity
+            android:name=".activities.ASampleScrollActivity"
+            android:label="@string/title_activity_asample_scroll"
             android:theme="@style/AppTheme.BaseCompat"></activity>
     </application>
 
