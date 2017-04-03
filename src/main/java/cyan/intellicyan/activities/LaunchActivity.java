@@ -13,8 +13,7 @@ import android.view.View;
 import cyan.intellicyan.R;
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
+ * 全屏的Activity
  */
 public class LaunchActivity extends AppCompatActivity {
     public static final Class GO_INTO_CLASS = ScrollShowActivity.class;
@@ -36,6 +35,12 @@ public class LaunchActivity extends AppCompatActivity {
      * and a change of the status and navigation bar.
      */
     private static final int UI_ANIMATION_DELAY = 300;
+
+    /**
+     * 第一次的时候调用hide的时间
+     */
+    private static final int FIRST_START_HIDE_DELAY=50;
+
     private final Handler mHideHandler = new Handler();
     private View mContentView;
     private final Runnable mHidePart2Runnable = new Runnable() {
@@ -60,11 +65,13 @@ public class LaunchActivity extends AppCompatActivity {
         @Override
         public void run() {
             // Delayed display of UI elements
+
+            //不显示控件，所以我注释了下面两个
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
-                actionBar.show();
+               // actionBar.show();
             }
-            mControlsView.setVisibility(View.VISIBLE);
+            //mControlsView.setVisibility(View.VISIBLE);
         }
     };
     private boolean mVisible;
@@ -95,6 +102,9 @@ public class LaunchActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_launch);
 
+        getSupportActionBar().hide();
+
+        /*
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
@@ -112,7 +122,7 @@ public class LaunchActivity extends AppCompatActivity {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
-
+        */
         h.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -120,7 +130,8 @@ public class LaunchActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
             }
-        }, 1000);
+        }, AUTO_HIDE_DELAY_MILLIS);
+
     }
 
     @Override
@@ -130,7 +141,11 @@ public class LaunchActivity extends AppCompatActivity {
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
-        delayedHide(100);
+
+       /*
+        delayedHide(FIRST_START_HIDE_DELAY);
+        */
+
     }
 
     private void toggle() {
