@@ -24,6 +24,7 @@ import java.util.Date;
 
 import cyan.intellicyan.R;
 import cyan.intellicyan.activities.base.BaseCompatActivity;
+import cyan.intellicyan.util.DLog;
 
 public class TodoItemInputActivity extends BaseCompatActivity implements View.OnClickListener, View.OnTouchListener {
     /**
@@ -66,7 +67,6 @@ public class TodoItemInputActivity extends BaseCompatActivity implements View.On
             AlertDialog.Builder bdr = new AlertDialog.Builder(this);
             LayoutInflater inflater = LayoutInflater.from(this);
             final View layout = inflater.inflate(R.layout.date_n_time_picker_layout, null);
-            bdr.setCancelable(false);
             bdr.setView(layout);
 
             TextView closeTextView = (TextView) layout.findViewById(R.id.dnt_closer);
@@ -113,6 +113,7 @@ public class TodoItemInputActivity extends BaseCompatActivity implements View.On
 
 
             pickerDialog = bdr.create();
+            pickerDialog.setCanceledOnTouchOutside(false);
         }
     }
 
@@ -162,7 +163,6 @@ public class TodoItemInputActivity extends BaseCompatActivity implements View.On
             imm = null;
             //弹出选择框
             pickerDialog.show();
-            return true;
         }
         return false;
     }

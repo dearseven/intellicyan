@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class DLog {
     public static void log(Class clz, String log) {
-        Log.d("intelliCyan", clz.getName() + "\n" + log);
+        Log.i("intelliCyan", clz.getName() + "\n" + log);
     }
 
 }
