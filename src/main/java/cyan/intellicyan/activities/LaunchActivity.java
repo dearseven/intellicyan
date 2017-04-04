@@ -16,7 +16,7 @@ import cyan.intellicyan.R;
  * 全屏的Activity
  */
 public class LaunchActivity extends AppCompatActivity {
-    public static final Class GO_INTO_CLASS = ScrollShowActivity.class;
+    public static final Class GO_INTO_CLASS = MainActivity.class;
 
     /**
      * Whether or not the system UI should be auto-hidden after
