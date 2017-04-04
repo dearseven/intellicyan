@@ -15,32 +15,6 @@
         tools:layout_editor_absoluteY="0dp"></include>
 
     <TextView
-        android:id="@+id/tip_todoitem_alarmdatetime"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="42dp"
-        android:gravity="center"
-        android:text="提醒时间"
-        app:layout_constraintLeft_toLeftOf="@+id/tip_todoitem_title"
-        app:layout_constraintTop_toBottomOf="@+id/tip_todoitem_title" />
-
-    <EditText
-        android:theme="@style/MyEditText.style"
-        android:editable="false"
-        android:id="@+id/todoitem_input_datetime"
-        android:layout_width="251dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="0dp"
-        android:ems="10"
-        android:hint="yyyy-MM-dd HH:mm:ss"
-        android:inputType="none"
-        app:layout_constraintLeft_toLeftOf="@+id/todoitem_input_title"
-        app:layout_constraintTop_toTopOf="@+id/tip_todoitem_alarmdatetime" />
-
-
-    <TextView
         android:id="@+id/tip_todoitem_title"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
@@ -66,6 +40,34 @@
         android:inputType="text"
         app:layout_constraintLeft_toRightOf="@+id/tip_todoitem_title"
         app:layout_constraintTop_toTopOf="@+id/tip_todoitem_title" />
+
+    <TextView
+        android:id="@+id/tip_todoitem_alarmdatetime"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="42dp"
+        android:gravity="center"
+        android:text="提醒时间"
+        app:layout_constraintLeft_toLeftOf="@+id/tip_todoitem_title"
+        app:layout_constraintTop_toBottomOf="@+id/tip_todoitem_title" />
+
+    <EditText
+        android:theme="@style/MyEditText.style"
+        android:editable="false"
+        android:id="@+id/todoitem_input_datetime"
+        android:layout_width="251dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:ems="10"
+        android:hint="yyyy-MM-dd HH:mm:ss"
+        android:inputType="none"
+        app:layout_constraintLeft_toLeftOf="@+id/todoitem_input_title"
+        app:layout_constraintTop_toTopOf="@+id/tip_todoitem_alarmdatetime" />
+
+
+
 
 
 </android.support.constraint.ConstraintLayout>
