@@ -31,7 +31,8 @@
         <activity
             android:name=".activities.ASampleScrollActivity"
             android:label="@string/title_activity_asample_scroll"
-            android:theme="@style/AppTheme.BaseCompat"></activity>
+            android:theme="@style/AppTheme.BaseCompat" />
+        <activity android:name=".activities.TodoItemInputActivity"></activity>
     </application>
 
 </manifest>

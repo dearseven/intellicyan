@@ -38,7 +38,7 @@ public abstract class BaseCompatActivity extends AppCompatActivity {
         toolbar.setSubtitle("Sub Title");
         */
         mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
-       //~ mToolbarSubTitle = (TextView) findViewById(R.id.toolbar_subtitle);
+        //~ mToolbarSubTitle = (TextView) findViewById(R.id.toolbar_subtitle);
 
         //Log.d("intelliCyan",mToolbarTitle+" "+mToolbarSubTitle);
         if (mToolbar != null) {
@@ -124,8 +124,10 @@ public abstract class BaseCompatActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(getMenuId(),menu);
-        return  true;
+        if (getMenuId() != 0) {
+            getMenuInflater().inflate(getMenuId(), menu);
+        }
+        return true;
     }
 
     @Override
@@ -153,11 +155,12 @@ public abstract class BaseCompatActivity extends AppCompatActivity {
 
     /**
      * 返回菜单布局的id
+     *
      * @return
      */
-    protected  abstract  int getMenuId();
+    protected abstract int getMenuId();
 
-    public abstract  void whenOptionsItemSelected(MenuItem item);
+    public abstract void whenOptionsItemSelected(MenuItem item);
 
     @Override
     protected void onDestroy() {

@@ -3,6 +3,7 @@ package cyan.intellicyan.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -166,8 +167,8 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
                     floatingActionButton.setVisibility(View.VISIBLE);
 
                 } else {
-                    DLog.log(TodoListActivity.class,floatAddNewButton.getAlpha()+"");
-                    if(floatAddNewButton.getAlpha()>=1.0f){
+                    DLog.log(TodoListActivity.class, floatAddNewButton.getAlpha() + "");
+                    if (floatAddNewButton.getAlpha() >= 1.0f) {
                         floatingActionButton.callOnClick();
                     }
                     floatingActionButton.setVisibility(View.GONE);
@@ -221,7 +222,13 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
             Toast.makeText(getApplicationContext(), "正在初始化，请稍候!", Toast.LENGTH_SHORT).show();
             return;
         }
-        Toast.makeText(getApplicationContext(), "startAddNewActivty!", Toast.LENGTH_SHORT).show();
+
+        Intent i = new Intent(this, TodoItemInputActivity.class);
+        startActivityForResult(i, TodoItemInputActivity.REQUSET_CODE_CREATE_NEW_TODO_ITEM);
+
+        //Toast.makeText(getApplicationContext(), "startAddNewActivty!", Toast.LENGTH_SHORT).show();
+
+        /*
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -245,31 +252,17 @@ public class TodoListActivity extends BaseCompatActivity implements View.OnClick
         DLog.log(TodoListActivity.class, item.toString());
         DLog.log(TodoListActivity.class, itemDetail.toString());
         recycler.insertItem(0, item, true);
+    */
+    }
 
-        /*这个是测试cyannosql数据库的使用
-        DBClient client = DBClient.getInstance(getApplication());
-
-        client.insert("ttable2", new String[]{"c"}, new String[]{"c value 1"});
-        List<Map<String, String>> listMap = client.retrieve("ttable2", null, null, null);
-        iterate(listMap);
-
-        DLog.log(TodoListActivity.class, "\n~~~~~~~update~~~~~~~~");
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == TodoItemInputActivity.REQUSET_CODE_CREATE_NEW_TODO_ITEM) {
 
 
-        client.update("ttable2", new String[]{"c1", "c2", "c"}, new String[]{"c11", "c22", "c"}, "c=?", new String[]{"c value 1"});
-        listMap = client.retrieve("ttable2", null, null, null);
-        iterate(listMap);
-
-        if (listMap.size() >= 2) {
-            DLog.log(TodoListActivity.class, "\n~~~~~~~~delete~~~~~~~");
-            DLog.log(TodoListActivity.class, "\n~~~~~~~~~~~~~~~");
-
-            client.delete("ttable2", "objKeyId=?", new String[]{"1"});
-            listMap = client.retrieve("ttable2", null, null, null);
-            iterate(listMap);
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
-*/
-
     }
 
     private void iterate(List<Map<String, String>> lm) {
